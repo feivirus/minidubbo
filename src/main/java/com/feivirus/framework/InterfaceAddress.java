@@ -1,11 +1,12 @@
 package com.feivirus.framework;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
  * @author feivirus
  */
-public class InterfaceAddress {
+public class InterfaceAddress implements Serializable {
     private String hostName;
 
     private Integer port;
