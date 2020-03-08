@@ -1,6 +1,9 @@
 package com.feivirus.framework;
 
+import com.feivirus.protocol.Protocol;
+import com.feivirus.protocol.ProtocolFactory;
 import com.feivirus.protocol.http.HttpClient;
+import com.feivirus.protocol.http.HttpProtocol;
 import com.feivirus.provider.api.HelloMiniDubboService;
 import com.feivirus.registry.RemoteRegistry;
 
@@ -20,7 +23,7 @@ public class ProxyFactory {
                     @Override
                     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
 
-                        HttpClient httpClient = new HttpClient();
+                        Protocol protocol = ProtocolFactory.getProtocol();
                         Invocation invocation = new Invocation(interfaceClass.getName(),
                                 method.getName(),
                                 args,
@@ -31,7 +34,7 @@ public class ProxyFactory {
                         InterfaceAddress address = LoadBalance.random(
                                 RemoteRegistry.get(interfaceClass.getName()));
 
-                        String result = httpClient.send(address.getHostName(), address.getPort(), invocation);
+                        String result = protocol.send(address, invocation);
                         return result;
                     }
                 });

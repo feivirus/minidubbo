@@ -1,6 +1,9 @@
 package com.feivirus.provider;
 
 import com.feivirus.framework.InterfaceAddress;
+import com.feivirus.protocol.Protocol;
+import com.feivirus.protocol.ProtocolFactory;
+import com.feivirus.protocol.http.HttpProtocol;
 import com.feivirus.protocol.http.HttpServer;
 import com.feivirus.provider.api.HelloMiniDubboService;
 import com.feivirus.provider.impl.HelloMiniDubboServiceImpl;
@@ -22,8 +25,11 @@ public class Provider {
         InterfaceAddress address = new InterfaceAddress(hostName, port);
         RemoteRegistry.register(HelloMiniDubboService.class.getName(), address);
 
-        HttpServer httpServer = new HttpServer();
-        httpServer.start(hostName, port);
+//        HttpServer httpServer = new HttpServer();
+//        httpServer.start(hostName, port);
+        Protocol protocol = ProtocolFactory.getProtocol();
+
+        protocol.start(address);
     }
 
 }
