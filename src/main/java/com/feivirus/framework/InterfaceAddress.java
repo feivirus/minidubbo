@@ -1,12 +1,19 @@
 package com.feivirus.framework;
 
+import java.util.Objects;
+
 /**
  * @author feivirus
  */
 public class InterfaceAddress {
     private String hostName;
 
-    private String port;
+    private Integer port;
+
+    public InterfaceAddress(String hostName, Integer port) {
+        this.hostName = hostName;
+        this.port = port;
+    }
 
     public String getHostName() {
         return hostName;
@@ -16,11 +23,29 @@ public class InterfaceAddress {
         this.hostName = hostName;
     }
 
-    public String getPort() {
+    public Integer getPort() {
         return port;
     }
 
-    public void setPort(String port) {
+    public void setPort(Integer port) {
         this.port = port;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass())  {
+            return false;
+        }
+        InterfaceAddress that = (InterfaceAddress) o;
+        return hostName.equals(that.hostName) &&
+                port.equals(that.port);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(hostName, port);
     }
 }
