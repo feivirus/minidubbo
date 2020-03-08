@@ -10,17 +10,17 @@ import com.feivirus.provider.api.HelloMiniDubboService;
  */
 public class Consumer {
     public static void main(String[] args) {
-        //consumeVersion1();
-        consumeVersion2();
+        //consumeByFixedInterface();
+        consumeByProxy();
     }
 
-    public static void consumeVersion2() {
-        HelloMiniDubboService service = ProxyFactory.getProxyVersion2(HelloMiniDubboService.class);
+    public static void consumeByProxy() {
+        HelloMiniDubboService service = ProxyFactory.getProxyByRegistry(HelloMiniDubboService.class);
         String result = service.hello("i am consumer");
         System.out.println(result);
     }
 
-    public static void consumeVersion1() {
+    public static void consumeByFixedInterface() {
         HttpClient httpClient = new HttpClient();
         Invocation invocation = new Invocation(HelloMiniDubboService.class.getName(),
                 "hello",

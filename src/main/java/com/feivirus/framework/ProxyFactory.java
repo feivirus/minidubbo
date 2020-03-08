@@ -3,8 +3,6 @@ package com.feivirus.framework;
 import com.feivirus.protocol.Protocol;
 import com.feivirus.protocol.ProtocolFactory;
 import com.feivirus.protocol.http.HttpClient;
-import com.feivirus.protocol.http.HttpProtocol;
-import com.feivirus.provider.api.HelloMiniDubboService;
 import com.feivirus.registry.RemoteRegistry;
 
 import java.lang.reflect.InvocationHandler;
@@ -16,14 +14,14 @@ import java.lang.reflect.Proxy;
  */
 public class ProxyFactory {
 
-    public static <T> T getProxyVersion2(Class interfaceClass) {
+    public static <T> T getProxyByRegistry(Class interfaceClass) {
         T result = (T)Proxy.newProxyInstance(interfaceClass.getClassLoader(),
                 new Class[]{interfaceClass},
                 new InvocationHandler() {
                     @Override
                     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
 
-                        Protocol protocol = ProtocolFactory.getProtocol();
+                        Protocol protocol = ProtocolFactory.getProtocolBySpi();
                         Invocation invocation = new Invocation(interfaceClass.getName(),
                                 method.getName(),
                                 args,
@@ -42,7 +40,7 @@ public class ProxyFactory {
     }
 
 
-    public static <T> T getProxyVersion1(Class interfaceClass) {
+    public static <T> T getProxyByFixedAddress(Class interfaceClass) {
         T result = (T)Proxy.newProxyInstance(interfaceClass.getClassLoader(),
                 new Class[]{interfaceClass},
                 new InvocationHandler() {
